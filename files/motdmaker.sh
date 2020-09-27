@@ -2,12 +2,16 @@
 allLenght=80
 allLenght=$[ $allLenght -  $[$allLenght % 2] ]
 
+msg1='Welcome'
+msg2='All connections are monitored and recorded'
+msg3='Disconnect IMMEDIATELY if you are not an authorized user!'
+
 printLine() {
 line='';
 for i in $(seq $allLenght)
-  do  line=$line"#"
+  do  line="$line#"
 done
-echo $line
+echo "$line"
 }
 
 printMsg() {
@@ -27,14 +31,36 @@ done
 echo "$line#"
 }
 
-echo -e "\n"
+
+linebreak () {
+unset myline
+linenumber=0;
+line='';
+msg="${1} "
+for i in ${msg}
+do
+   if [[ $[${#line}+${#i}] -gt $[${allLenght}-4] ]]
+   then
+        lastval="${i}"
+        printMsg "${line}"
+        line="${lastval} " ;
+   else
+        line+="${i} " ;
+   fi
+done
+printMsg "${line}"
+}
+
 printLine
-msg="Welcome"
-printMsg "${msg}"
-msg="All connections are monitored and recorded"
-printMsg "${msg}"
-msg="Disconnect IMMEDIATELY if you are not an authorized user!"
-printMsg "${msg}"
+
+#for i in "${@}"
+#do
+#    linebreak "${i}"
+#done
+
+linebreak "$msg1"
+linebreak "$msg2"
+linebreak "$msg3"
 printLine
 echo " "
 echo " "
